@@ -1,16 +1,16 @@
 -- This file was automatically generated for the LuaDist project.
 
 package = "bump"
-version = "3.1.6-2"
+version = "3.1.7-1"
 -- LuaDist source
 source = {
-  tag = "3.1.6-2",
+  tag = "3.1.7-1",
   url = "git://github.com/LuaDist-testing/bump.git"
 }
 -- Original source
 -- source = {
 --    url = "git://github.com/kikito/bump.lua",
---    tag = "v3.1.6-2",
+--    tag = "v3.1.7",
 --    dir = "bump.lua"
 -- }
 description = {
