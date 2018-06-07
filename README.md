@@ -1,6 +1,7 @@
 # bump.lua
 
 [![Build Status](https://travis-ci.org/kikito/bump.lua.svg?branch=master)](https://travis-ci.org/kikito/bump.lua)
+[![Coverage Status](https://coveralls.io/repos/github/kikito/bump.lua/badge.svg?branch=master)](https://coveralls.io/github/kikito/bump.lua?branch=master)
 
 Lua collision-detection library for axis-aligned rectangles. Its main features are:
 
@@ -33,7 +34,7 @@ The demos are LÖVE based, but this library can be used in any Lua-compatible en
 local bump = require 'bump'
 
 -- The grid cell size can be specified via the initialize method
--- By default, the cell size is 32
+-- By default, the cell size is 64
 local world = bump.newWorld(50)
 
 -- create two rectangles
@@ -206,7 +207,7 @@ as the real "updates" - . For example, here's how a player would move:
 
 ``` lua
 function movePlayer(player, dt)
-  local goalX, goalY = player.vx * dt, player.vy * dt
+  local goalX, goalY = player.x + player.vx * dt, player.y + player.vy * dt
   local actualX, actualY, cols, len = world:move(player, goalX, goalY)
   player.x, player.y = actualX, actualY
   -- deal with the collisions
@@ -243,14 +244,14 @@ their name in the `filter` param of `world:move` or `world:check`. You can also 
 
 This is the type of collision for things like arrows or bullets; things that "gets stuck" on their targets.
 
-Collisions of this type have their `type` attribute set to `"touch"` and don't have any additional information appart from the the default one, shared by all collisions (see below).
+Collisions of this type have their `type` attribute set to `"touch"` and don't have any additional information apart from the the default one, shared by all collisions (see below).
 
 ![cross](img/cross.png)
 
 This type of collision is for cases where you want to detect a collision but you don't want any response. It is useful for things like: detecting that the player has entered a new area,
 or consumables (i.e. coins) which usually don't affect the player's trajectory, but it's still useful to know then they are collided with.
 
-Collisions of this type have their `type` attribute set to `"cross"` and don't have any additional information appart from the the default one, shared by all collisions (see below).
+Collisions of this type have their `type` attribute set to `"cross"` and don't have any additional information apart from the the default one, shared by all collisions (see below).
 
 ![slide](img/slide.png)
 
@@ -500,7 +501,7 @@ Moves a the given imaginary rectangle towards goalX and goalY, providing a list 
 This method is useful mostly when creating new collision responses, although it could be also used as a query method.
 
 You could use this method to implement your own collision response algorithm (this was the only way to
-to it in prevous versions of bump)
+do it in prevous versions of bump)
 
 ```lua
 bump.responses.touch
@@ -509,14 +510,14 @@ bump.responses.slide
 bump.responses.bounce
 ```
 
-These are the functions bump uses to resolve collisions by default. You can use these function's source as a base to build your own response function, if you feel adventurous.
+These are the functions bump uses to resolve collisions by default. You can use these functions' source as a base to build your own response function, if you feel adventurous.
 
 ```lua
 world:addResponse(name, response)
 ```
 
-This is how you register a new type of response in the world. All world come with the 4 pre-defined responses "already installed", but you can add your own; if you register the
-response `'foo'`, then when your filter return `'foo'` in a collision your world will handle them with `response`. This, however, is advanced stuff, and you
+This is how you register a new type of response in the world. All worlds come with the 4 pre-defined responses already installed, but you can add your own: if you register the
+response `'foo'`, if your filter returns `'foo'` in a collision your world will handle it with `response`. This, however, is advanced stuff, and you
 will have to read the source code of the default responses in order to know how to do that.
 
 ```lua
